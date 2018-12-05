@@ -1,10 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import App from './components/App';
 import * as serviceWorker from './serviceWorker';
+import axios from 'axios';
+import reducers from './reducers';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import rootSaga from './sagas';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+//Setting up axios default config
+axios.defaults.withCredentials = true;
+axios.defaults.baseURL = 'http://rem-rest-api.herokuapp.com/api';
+
+//Setting up saga middleware
+const sagaMiddleware = createSagaMiddleware();
+
+//Setting up redux store
+const store = createStore(reducers, applyMiddleware(sagaMiddleware));
+
+//Starting saga middleware with root saga
+sagaMiddleware.run(rootSaga);
+
+ReactDOM.render(
+	<Provider store={store}>
+		<App />
+	</Provider>,
+	document.getElementById('root')
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
