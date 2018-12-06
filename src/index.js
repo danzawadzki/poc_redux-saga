@@ -5,9 +5,10 @@ import * as serviceWorker from './serviceWorker';
 import axios from 'axios';
 import reducers from './reducers';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, compose, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './sagas';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 //Setting up axios default config
 axios.defaults.withCredentials = true;
@@ -17,7 +18,10 @@ axios.defaults.baseURL = 'http://rem-rest-api.herokuapp.com/api';
 const sagaMiddleware = createSagaMiddleware();
 
 //Setting up redux store
-const store = createStore(reducers, applyMiddleware(sagaMiddleware));
+/* eslint-disable no-underscore-dangle */
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducers, composeEnhancers(applyMiddleware(sagaMiddleware)));
+/* eslint-enable */
 
 //Starting saga middleware with root saga
 sagaMiddleware.run(rootSaga);
