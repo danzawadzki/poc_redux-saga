@@ -9,7 +9,8 @@ export const Types = {
 	CREATE_USER_REQUEST: 'users/create_user_request',
 	CREATE_USER_SUCCESS: 'users/create_user_success',
 	DELETE_USER_REQUEST: 'users/delete_user_request',
-	DELETE_USER_SUCCESS: 'users/delete_user_success'
+	DELETE_USER_SUCCESS: 'users/delete_user_success',
+	USERS_ERROR: 'users/error'
 };
 
 /**
@@ -59,5 +60,18 @@ export const deleteUserRequest = id => ({
 	type: Types.DELETE_USER_REQUEST,
 	payload: {
 		id
+	}
+});
+
+/**
+ * Action informing about error.
+ *
+ * @param error
+ * @returns {{type: *, payload: {error: *}}}
+ */
+export const usersError = ({ error }) => ({
+	type: Types.USERS_ERROR,
+	payload: {
+		error
 	}
 });

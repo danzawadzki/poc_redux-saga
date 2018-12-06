@@ -4,7 +4,8 @@ import { Types } from '../actions/users.actions';
  * Initial state.
  */
 const INITIAL_STATE = {
-	items: []
+	items: [],
+	error: ''
 };
 
 /**
@@ -19,7 +20,14 @@ export default function users(state = INITIAL_STATE, action) {
 		case Types.GET_USERS_SUCCESS: {
 			return {
 				...state,
+				error: '',
 				items: action.payload.items
+			};
+		}
+		case Types.USERS_ERROR: {
+			return {
+				...state,
+				error: action.payload.error
 			};
 		}
 		default: {
